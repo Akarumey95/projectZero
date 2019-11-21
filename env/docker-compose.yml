@@ -1,0 +1,40 @@
+version: "3.3"
+
+services:
+  web:
+    build: .
+    container_name: "project"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./../:/var/www/html
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - network
+    depends_on:
+      - project_db
+  project_db:
+    image: mariadb:latest
+    container_name: project_db
+    volumes:
+      - ./db/log:/var/log
+      - ./db/data:/var/lib/mysql
+    environment:
+      #      TZ: "Europe/Kiev"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    restart: always
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 127.0.0.0/8
