@@ -79,7 +79,6 @@
                         </div>
                         {{--End General Roles Tab--}}
                         {{--Create User Tab--}}
-
                         <div class="tab-pane tab__pane" id="createUser">
                             <div class="card-header">Create User</div>
 
@@ -106,10 +105,8 @@
                                 </form>
                             </div>
                         </div>
-
                         {{--End Create User Tab--}}
                         {{--Update User Tab--}}
-
                         @foreach($users as $user)
                             <div class="tab-pane tab__pane" id="{{'updateUserID-' . $user->id}}">
                                 <div class="card-header">Update User</div>
@@ -131,7 +128,7 @@
                                             <select name="userRole" id="userRole">
                                                 @foreach($roles as $role)
                                                     <option value="{{$role->id}}"
-                                                    @if($role->id == $user->role)
+                                                    @if($role->id == $user->role_id)
                                                         selected
                                                     @endif
                                                     >{{$role->name}}</option>
@@ -143,10 +140,8 @@
                                 </div>
                             </div>
                         @endforeach
-
                         {{--End Update User Tab--}}
                         {{--Create Role Tab--}}
-
                         <div class="tab-pane tab__pane" id="createRole">
                             <div class="card-header">Create Role</div>
 

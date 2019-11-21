@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Middleware\CheckRole;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,7 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin', 'HomeController@adminPage')->name('adminPage');
+Route::get('/admin', 'HomeController@adminPage')->name('adminPage')->middleware(CheckRole::class);
 
 Route::post('/create/user', 'HomeController@createUser')->name('createUser');
 Route::post('/update/user', 'HomeController@updateUser')->name('updateUser');

@@ -55,7 +55,7 @@ class HomeController extends Controller
             'name' => $request['userName'],
             'email' => $request['userEmail'],
             'password' => Hash::make($request['userPassword']),
-            'role' => $request['userRole'],
+            'role_id' => $request['userRole'],
         ]);
 
         return redirect()->back();
@@ -72,7 +72,7 @@ class HomeController extends Controller
         $toUpdate = [
             'name' => $request['userName'],
             'email' => $request['userEmail'],
-            'role' => $request['userRole'],
+            'role_id' => $request['userRole'],
         ];
 
         if(!empty($request['userPassword']) &&

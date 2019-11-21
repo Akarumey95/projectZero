@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role_id'
     ];
 
     /**
@@ -37,11 +38,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function checkRole($roleName){
+        return self::find(Auth::id())->role()->first()->name == $roleName ? true : false;
+    }
+
     /**
      * Get the phone record associated with the user.
      */
     public function role()
     {
-        return $this->hasOne('App\Role', 'id', 'role');
+        return $this->hasOne('App\Role', 'id', 'role_id');
     }
 }
