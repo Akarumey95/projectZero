@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Roles;
 
-use App\Role;
+use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -13,9 +14,7 @@ class RoleController extends Controller
      */
     public function createRole(Request $request){
 
-        Role::create([
-            'name' => $request['roleName'],
-        ]);
+        Role::create($request->all());
 
         return redirect()->back();
     }
@@ -25,8 +24,8 @@ class RoleController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateRole(Request $request){
-        Role::where('id', $request['roleId'])->update([
+    public function updateRole(Request $request, $id){
+        Role::where('id', $id)->update([
             'name' => $request['roleName'],
         ]);
 

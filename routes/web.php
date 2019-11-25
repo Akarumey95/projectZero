@@ -12,20 +12,40 @@
 */
 
 use App\Http\Middleware\CheckRole;
+use App\User;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (User::checkRole('admin')) {
+        return redirect('admin');
+    }else{
+        return redirect('home');
+    }
+
+});
+
+Route::get('/admin/clear/all', function (){
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin', 'HomeController@adminPage')->name('adminPage')->middleware(CheckRole::class);
 
-Route::post('/create/user', 'HomeController@createUser')->name('createUser');
-Route::post('/update/user', 'HomeController@updateUser')->name('updateUser');
-Route::post('/create/role', 'RoleController@createRole')->name('createRole');
-Route::post('/update/role', 'RoleController@updateRole')->name('updateRole');
+Route::get('/home', 'Web\HomeController@index')->name('home');
+
+Route::middleware(CheckRole::class)->group(function (){
+
+    Route::get('/admin', 'Web\HomeController@adminPage')->name('adminPage');
+
+    Route::post('/create/user', 'Web\Users\UserController@createUser')->name('createUser');
+    Route::post('/update/user', 'Web\Users\UserController@updateUser')->name('updateUser');
+
+    Route::post('/create/role', 'Web\Roles\RoleController@createRole')->name('createRole');
+    Route::post('/update/role/{id}', 'Web\Roles\RoleController@updateRole')->name('updateRole');
+});
+
 
 
 

@@ -87,20 +87,20 @@
                                     @csrf
                                     <label for="userName">Name
                                         <input type="text" id="userName" name="userName">
-                                    </label>
+                                    </label><br>
                                     <label for="userEmail">Email
                                         <input type="email" id="userEmail" name="userEmail">
-                                    </label>
+                                    </label><br>
                                     <label for="userPassword">Password
                                         <input type="password" id="userPassword" name="userPassword">
-                                    </label>
+                                    </label><br>
                                     <label for="userRole">Role
                                         <select name="userRole" id="userRole">
                                             @foreach($roles as $role)
                                                 <option value="{{$role->id}}">{{$role->name}}</option>
                                             @endforeach
                                         </select>
-                                    </label>
+                                    </label><br>
                                     <input type="submit">
                                 </form>
                             </div>
@@ -117,13 +117,13 @@
                                         <input type="hidden" name="userId" value="{{$user->id}}">
                                         <label for="userName">Name
                                             <input type="text" id="userName" name="userName" value="{{$user->name}}">
-                                        </label>
+                                        </label><br>
                                         <label for="userEmail">Email
                                             <input type="email" id="userEmail" name="userEmail" value="{{$user->email}}">
-                                        </label>
+                                        </label><br>
                                         <label for="userPassword">Password
                                             <input type="password" id="userPassword" name="userPassword">
-                                        </label>
+                                        </label><br>
                                         <label for="userRole">Role
                                             <select name="userRole" id="userRole">
                                                 @foreach($roles as $role)
@@ -134,7 +134,7 @@
                                                     >{{$role->name}}</option>
                                                 @endforeach
                                             </select>
-                                        </label>
+                                        </label><br>
                                         <input type="submit">
                                     </form>
                                 </div>
@@ -150,7 +150,7 @@
                                     @csrf
                                     <label for="roleName">Name
                                         <input type="text" id="roleName" name="roleName">
-                                    </label>
+                                    </label><br>
                                     <input type="submit">
                                 </form>
                             </div>
@@ -163,12 +163,12 @@
                                 <div class="card-header">Update Role</div>
 
                                 <div class="card-body">
-                                    <form action="{{route('updateRole')}}" method="post" class="form__toSubmit" enctype="multipart/form-data">
+                                    <form action="{{route('updateRole', ['id' => $role->id])}}}" method="post" class="form__toSubmit" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="roleId" value="{{$role->id}}">
                                         <label for="roleName">Name
                                             <input type="text" id="roleName" name="roleName" value="{{$role->name}}">
-                                        </label>
+                                        </label><br>
                                         <input type="submit">
                                     </form>
                                 </div>

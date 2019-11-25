@@ -1,50 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Users;
 
-use App\Role;
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class HomeController extends Controller
+class UserController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('home');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function adminPage()
-    {
-        $users = User::all();
-        $roles = Role::all();
-
-        return view('admin',[
-            'users' => $users,
-            'roles' => $roles,
-        ]);
-    }
-
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -84,6 +48,4 @@ class HomeController extends Controller
 
         return redirect()->back();
     }
-
-
 }

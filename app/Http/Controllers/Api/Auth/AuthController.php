@@ -11,6 +11,7 @@ class AuthController extends Controller
 {
     /**
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request){
 
@@ -18,7 +19,7 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'email|required',
             'password' => 'required|confirmed',
-            'role' => 'required',
+            'role_id' => 'required',
         ]);
 
         $validatedData['password'] = bcrypt($request->password);
@@ -27,7 +28,7 @@ class AuthController extends Controller
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
-         ToJson::json($accessToken,'ok','201','User was created');
+        return ToJson::json($accessToken,'ok','201','User was created');
 
     }
 
@@ -35,7 +36,7 @@ class AuthController extends Controller
 
         $loginData = $request->validate([
             'email' => 'email|required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
         ]);
 
         if(!auth()->attempt($loginData)){
@@ -44,7 +45,7 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return ToJson::json($accessToken,'ok','201','Login success');
 
     }
 }
