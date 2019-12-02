@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Web\Roles;
+namespace App\Http\Controllers\Api\Tariffs;
 
+use App\Helpers\ToJson;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\Tariff;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class TariffController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +16,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $response = Tariff::all();
 
-        return view('admin.roles.role',[
-            'roles' => $roles,
-        ]);
+        return ToJson::json($response,'ok','201','All Tariffs');
     }
 
     /**
@@ -29,10 +28,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.roles.form', [
-            'method' => 'post',
-            'action' => '/admin/role',
-        ]);
+        //
     }
 
     /**
@@ -43,21 +39,22 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        Role::create([
-            'name' => $request['roleName']
-        ]);
+        $response = Tariff::create($request->all());
 
-        return redirect('/admin/role');
+        return ToJson::json($response,'ok','201','Tariff Create');
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show()
+    public function show($id)
     {
-        return redirect('/admin/role');
+        $response = Tariff::where('id', $id)->first();
+
+        return ToJson::json($response,'ok','201','Tariff id: ' . $id);
     }
 
     /**
@@ -68,13 +65,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::where('id', $id)->first();
-
-        return view('admin.roles.form',[
-            'method' => 'put',
-            'action' => '/admin/role/' . $id,
-            'role' => $role,
-        ]);
+        //
     }
 
     /**
@@ -86,11 +77,9 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Role::where('id', $id)->update([
-            'name' => $request['roleName']
-        ]);
+        $response = Tariff::where('id', $id)->update($request->all());
 
-        return redirect('/admin/role');
+        return ToJson::json($response,'ok','201','Updated tariff id: ' . $id);
     }
 
     /**
@@ -101,6 +90,8 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $response = Tariff::where('id', $id)->delete();
+
+        return ToJson::json($response,'ok','201','Deleted tariff id: ' . $id);
     }
 }

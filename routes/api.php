@@ -23,4 +23,10 @@ Route::middleware('auth:api')->group( function () {
 
     /*RoleController*/
     Route::resource('/roles', 'Api\Roles\RoleController');
+
+    /*CarController*/
+    Route::resource('/cars', 'Api\Cars\CarsController');
+
+    /*TariffController*/
+    Route::resource('/tariffs', 'Api\Tariffs\TariffController');
 });

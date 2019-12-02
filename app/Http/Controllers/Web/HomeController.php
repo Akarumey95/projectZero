@@ -38,13 +38,7 @@ class HomeController extends Controller
      */
     public function adminPage()
     {
-        $users = User::all();
-        $roles = Role::all();
-
-        return view('admin',[
-            'users' => $users,
-            'roles' => $roles,
-        ]);
+        return view('admin.index');
     }
 
 }

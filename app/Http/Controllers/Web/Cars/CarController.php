@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Web\Roles;
+namespace App\Http\Controllers\Web\Cars;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\Car;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class CarController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $roles = Role::all();
+        $cars = Car::all();
 
-        return view('admin.roles.role',[
-            'roles' => $roles,
+        return view('admin.cars.car',[
+            'cars' => $cars,
         ]);
     }
 
@@ -29,9 +29,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.roles.form', [
+        return view('admin.cars.form', [
             'method' => 'post',
-            'action' => '/admin/role',
+            'action' => '/admin/car',
         ]);
     }
 
@@ -39,25 +39,27 @@ class RoleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        Role::create([
-            'name' => $request['roleName']
+        Car::create([
+            'name' => $request['carName'],
+            'type' => $request['carType'],
+            'body_number' => $request['carBodyNumber'],
         ]);
 
-        return redirect('/admin/role');
+        return redirect('/admin/car');
     }
 
     /**
      * Display the specified resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function show()
     {
-        return redirect('/admin/role');
+        return redirect('/admin/car');
     }
 
     /**
@@ -68,12 +70,12 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::where('id', $id)->first();
+        $car = Car::where('id', $id)->first();
 
-        return view('admin.roles.form',[
+        return view('admin.cars.form',[
             'method' => 'put',
-            'action' => '/admin/role/' . $id,
-            'role' => $role,
+            'action' => '/admin/car/' . $id,
+            'car' => $car,
         ]);
     }
 
@@ -82,22 +84,24 @@ class RoleController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        Role::where('id', $id)->update([
-            'name' => $request['roleName']
+        Car::where('id', $id)->update([
+            'name' => $request['carName'],
+            'type' => $request['carType'],
+            'body_number' => $request['carBodyNumber'],
         ]);
 
-        return redirect('/admin/role');
+        return redirect('/admin/car');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
