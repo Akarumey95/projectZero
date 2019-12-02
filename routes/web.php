@@ -14,9 +14,12 @@
 use App\Http\Middleware\CheckRole;
 use App\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+
+Auth::routes();
 
 Route::get('/', function () {
-    if (User::checkRole('admin')) {
+    if (Auth::user() && User::checkRole('admin')) {
         return redirect('admin');
     }else{
         return redirect('home');
@@ -29,9 +32,6 @@ Route::get('/admin/clear/all', function (){
     Artisan::call('config:clear');
     Artisan::call('cache:clear');
 });
-
-Auth::routes();
-
 
 Route::get('/home', 'Web\HomeController@index')->name('home');
 
