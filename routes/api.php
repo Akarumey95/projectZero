@@ -14,9 +14,13 @@ use Illuminate\Http\Request;
 */
 
 Route::post('/register', 'Api\Auth\AuthController@register');
+Route::post('/register/driver', 'Api\Auth\AuthController@registerDriver');
+Route::post('/register/passenger', 'Api\Auth\AuthController@registerPassenger');
+
+
 Route::post('/login', 'Api\Auth\AuthController@login');
 
-Route::middleware('auth:api')->group( function () {
+Route::middleware('auth:api')->group(function () {
 
     /*UserController*/
     Route::resource('/user', 'Api\Users\UserController');

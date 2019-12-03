@@ -31,14 +31,12 @@
 
                                 <table class="table">
                                     <tr>
-                                        <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
                                         <th>Action</th>
                                     </tr>
                                     @foreach($users as $user)
                                         <tr>
-                                            <td>{{$user->name}}</td>
                                             <td>{{$user->email}}</td>
                                             <td>{{$user->role()->first()->name}}</td>
                                             <td>
@@ -115,9 +113,6 @@
                                     <form action="{{route('updateUser')}}" method="post" class="form__toSubmit" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="userId" value="{{$user->id}}">
-                                        <label for="userName">Name
-                                            <input type="text" id="userName" name="userName" value="{{$user->name}}">
-                                        </label><br>
                                         <label for="userEmail">Email
                                             <input type="email" id="userEmail" name="userEmail" value="{{$user->email}}">
                                         </label><br>

@@ -1,0 +1,8 @@
+{
+    "name": "API for delivery",
+    "version": "0.0.1",
+    "description": "API for delivery",
+    "title": "Delivery",
+    "url" : "http://gloobe/api",
+    "sampleUrl":"/api"
+}

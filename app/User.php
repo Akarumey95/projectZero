@@ -2,12 +2,17 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\HasApiTokens;
 
+
+/**
+ * Class User
+ * @package App
+ */
 class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
@@ -18,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role_id'
+        'email', 'password', 'role_id'
     ];
 
     /**
@@ -39,15 +44,43 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @param $roleName
+     * @return bool
+     */
     public static function checkRole($roleName){
-        return self::find(Auth::id())->role()->first()->name == $roleName ? true : false;
+        return self::find(auth()->id())->role()->name == $roleName ? true : false;
     }
 
     /**
-     * Get the phone record associated with the user.
+     * Get the role record associated with the user.
      */
     public function role()
     {
-        return $this->hasOne('App\Models\Role', 'id', 'role_id');
+        return $this->hasOne('App\Models\Role', 'id', 'role_id')->first();
+    }
+
+    /**
+     * @return HasOne|string
+     */
+    public function driverData()
+    {
+        if(self::checkRole('Driver')){
+            return $this->hasOne('App\Models\Driver', 'user_id', 'id')->first();
+        }else{
+            return 'User not driver';
+        }
+    }
+
+    /**
+     * @return HasOne|string
+     */
+    public function passengerData()
+    {
+        if(self::checkRole('Passenger')){
+            return $this->hasOne('App\Models\Passenger', 'user_id', 'id')->first();
+        }else{
+            return 'User not passenger';
+        }
     }
 }
