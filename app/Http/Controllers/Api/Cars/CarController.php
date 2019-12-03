@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Web\Roles;
+namespace App\Http\Controllers\Api\Cars;
 
+use App\Helpers\ToJson;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\Car;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class CarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +16,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $response = Car::all();
 
-        return view('admin.roles.role',[
-            'roles' => $roles,
-        ]);
+        return ToJson::json($response,'ok','201','All Cars');
     }
 
     /**
@@ -29,10 +28,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.roles.form', [
-            'method' => 'post',
-            'action' => '/admin/role',
-        ]);
+        //
     }
 
     /**
@@ -43,21 +39,22 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        Role::create([
-            'name' => $request['roleName']
-        ]);
+        $response = Car::create($request->all());
 
-        return redirect('/admin/role');
+        return ToJson::json($response,'ok','201','Car Create');
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show()
+    public function show($id)
     {
-        return redirect('/admin/role');
+        $response = Car::where('id', $id)->first();
+
+        return ToJson::json($response,'ok','201','Car id: ' . $id);
     }
 
     /**
@@ -68,13 +65,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::where('id', $id)->first();
-
-        return view('admin.roles.form',[
-            'method' => 'put',
-            'action' => '/admin/role/' . $id,
-            'role' => $role,
-        ]);
+        //
     }
 
     /**
@@ -86,11 +77,9 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Role::where('id', $id)->update([
-            'name' => $request['roleName']
-        ]);
+        $response = Car::where('id', $id)->update($request->all());
 
-        return redirect('/admin/role');
+        return ToJson::json($response,'ok','201','Updated role id: ' . $id);
     }
 
     /**
@@ -101,6 +90,8 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $response = Car::where('id', $id)->delete();
+
+        return ToJson::json($response,'ok','201','Deleted role id: ' . $id);
     }
 }

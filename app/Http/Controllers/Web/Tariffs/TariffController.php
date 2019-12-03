@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Web\Roles;
+namespace App\Http\Controllers\Web\Tariffs;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\Tariff;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class TariffController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $roles = Role::all();
+        $tariffs = Tariff::all();
 
-        return view('admin.roles.role',[
-            'roles' => $roles,
+        return view('admin.tariffs.tariff',[
+            'tariffs' => $tariffs,
         ]);
     }
 
@@ -29,9 +29,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.roles.form', [
+        return view('admin.tariffs.form', [
             'method' => 'post',
-            'action' => '/admin/role',
+            'action' => '/admin/tariff',
         ]);
     }
 
@@ -39,25 +39,26 @@ class RoleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        Role::create([
-            'name' => $request['roleName']
+        Tariff::create([
+            'name' => $request['tariffName'],
+            'rate' => $request['tariffRate'],
         ]);
 
-        return redirect('/admin/role');
+        return redirect('/admin/tariff');
     }
 
     /**
      * Display the specified resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function show()
     {
-        return redirect('/admin/role');
+        return redirect('/admin/tariff');
     }
 
     /**
@@ -68,12 +69,12 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::where('id', $id)->first();
+        $tariff = Tariff::where('id', $id)->first();
 
-        return view('admin.roles.form',[
+        return view('admin.tariffs.form',[
             'method' => 'put',
-            'action' => '/admin/role/' . $id,
-            'role' => $role,
+            'action' => '/admin/tariff/' . $id,
+            'tariff' => $tariff,
         ]);
     }
 
@@ -82,22 +83,23 @@ class RoleController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        Role::where('id', $id)->update([
-            'name' => $request['roleName']
+        Tariff::where('id', $id)->update([
+            'name' => $request['tariffName'],
+            'rate' => $request['tariffRate'],
         ]);
 
-        return redirect('/admin/role');
+        return redirect('/admin/tariff');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {

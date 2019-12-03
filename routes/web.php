@@ -18,14 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', function () {
-    if (Auth::user() && User::checkRole('admin')) {
-        return redirect('admin');
-    }else{
-        return redirect('home');
-    }
-
-});
+Route::get('/home', 'Web\HomeController@index')->name('home');
 
 Route::get('/admin/clear/all', function (){
     Artisan::call('route:clear');
@@ -33,17 +26,22 @@ Route::get('/admin/clear/all', function (){
     Artisan::call('cache:clear');
 });
 
-Route::get('/home', 'Web\HomeController@index')->name('home');
-
 Route::middleware(CheckRole::class)->group(function (){
 
     Route::get('/admin', 'Web\HomeController@adminPage')->name('adminPage');
 
-    Route::post('/create/user', 'Web\Users\UserController@createUser')->name('createUser');
-    Route::post('/update/user', 'Web\Users\UserController@updateUser')->name('updateUser');
+    /*UserController*/
+    Route::resource('/admin/user', 'Web\Users\UserController');
 
-    Route::post('/create/role', 'Web\Roles\RoleController@createRole')->name('createRole');
-    Route::post('/update/role/{id}', 'Web\Roles\RoleController@updateRole')->name('updateRole');
+    /*RoleController*/
+    Route::resource('/admin/role', 'Web\Roles\RoleController');
+
+    /*CarController*/
+    Route::resource('/admin/car', 'Web\Cars\CarController');
+
+    /*TariffController*/
+    Route::resource('/admin/tariff', 'Web\Tariffs\TariffController');
+
 });
 
 
